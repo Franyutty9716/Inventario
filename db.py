@@ -37,3 +37,13 @@ def listar_productos():
     ).fetchall()
     conexion.close()
     return filas
+
+#Busca productos cuyo nombre contenga el texto indicado
+def buscar_productos(texto):
+    conexion = conectar()
+    filas = conexion.execute(
+        "SELECT id, nombre, cantidad, precio, minimo FROM productos WHERE nombre LIKE ? ORDER BY nombre",
+        ("%" + texto + "%",)
+    ).fetchall()
+    conexion.close()
+    return filas

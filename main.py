@@ -1,11 +1,12 @@
-from db import crear_tablas, agregar_producto, listar_productos
+from db import crear_tablas, agregar_producto, listar_productos, buscar_productos
 
 #Muestra las opciones del menu
 def mostrar_menu():
     print("=== Menu de Inventario ===")
     print("1. Agregar producto")
     print("2. Listar productos")
-    print("3. Salir")
+    print("3. Buscar producto")
+    print("4. Salir")
 
 #Pide los datos de un prducto y lo guarda 
 def pedir_producto():
@@ -28,6 +29,17 @@ def mostrar_productos():
         return
     for id, nombre, cantidad, precio, minimo in productos:
         print(f"{id}. {nombre} - {cantidad} piezas - ${precio}")
+
+#Pide un texto y muestra los productos que coincidan
+def mostrar_busqueda():
+    texto = input("Buscar producto: ")
+    productos = buscar_productos(texto)
+    if len(productos) == 0:
+        print("No se encontraron productos.")
+        return
+    for id, nombre, cantidad, precio, minimo in productos:
+        print(f"{id}. {nombre} - {cantidad} piezas - ${precio}")
+
 crear_tablas()
 
 while True:
@@ -38,6 +50,8 @@ while True:
     elif opcion == "2":
         mostrar_productos()
     elif opcion == "3":
+        mostrar_busqueda()
+    elif opcion == "4":
         print("Hasta luego")
         break
     else:
