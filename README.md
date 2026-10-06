@@ -45,6 +45,9 @@ uvicorn api:app --reload
 
 4. Abre http://127.0.0.1:8000/docs para probarla
 
+
+![Documentación de la API](docs.png)
+
 ### Rutas
 - `GET /productos`: lista los productos
 - `POST /productos`: agrega un producto
