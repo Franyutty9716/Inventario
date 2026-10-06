@@ -1,4 +1,4 @@
-from db import crear_tablas, agregar_producto, listar_productos, buscar_productos, registrar_movimiento
+from db import crear_tablas, agregar_producto, listar_productos, buscar_productos, registrar_movimiento, productos_stock_bajo
 
 #Muestra las opciones del menu
 def mostrar_menu():
@@ -8,7 +8,8 @@ def mostrar_menu():
     print("3. Buscar producto")
     print("4. Registrar entrada")
     print("5. Registrar salida")
-    print("6. Salir")
+    print("6. Ver stock bajo")
+    print("7. Salir")
 
 #Pide los datos de un prducto y lo guarda 
 def pedir_producto():
@@ -57,6 +58,16 @@ def pedir_movimiento(tipo):
     mensaje = registrar_movimiento(producto_id, tipo, cantidad)
     print(mensaje)
 
+#Muestra los productos que estan por acabarse
+def mostrar_stock_bajo():
+    productos = productos_stock_bajo()
+    if len(productos) == 0:
+        print("Todo el inventario esta por encima del minimo.")
+        return
+    print("PRODUCTOS CON STOCK BAJO:")
+    for id, nombre, cantidad, precio, minimo in productos:
+        print(f"{id}. {nombre} - quedan {cantidad} (minimo: {minimo})")
+
 crear_tablas()
 
 while True:
@@ -73,6 +84,8 @@ while True:
     elif opcion == "5":
         pedir_movimiento("salida")
     elif opcion == "6":
+        mostrar_stock_bajo()
+    elif opcion == "7":
         print("Hasta luego")
         break
     else:

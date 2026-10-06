@@ -86,3 +86,12 @@ def registrar_movimiento(producto_id, tipo, cantidad):
     conexion.commit()
     conexion.close()
     return "Movimiento registrado."
+
+#Devuelve los productos cuya cantidad es igual o menor a su minimo
+def productos_stock_bajo():
+    conexion = conectar()
+    filas = conexion.execute(
+        "SELECT id, nombre, cantidad, precio, minimo FROM productos WHERE cantidad <= minimo ORDER BY cantidad"
+    ).fetchall()
+    conexion.close()
+    return filas
