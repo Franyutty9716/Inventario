@@ -1,6 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from db import crear_tablas, listar_productos, agregar_producto, productos_stock_bajo
+from db import crear_tablas, listar_productos, agregar_producto, productos_stock_bajo, registrar_movimiento
 
 app = FastAPI()
 
@@ -10,6 +10,12 @@ class Producto(BaseModel):
     cantidad: int
     precio: float
     minimo: int
+
+#Define los datos de un movimiento de inventario
+class Movimiento(BaseModel):
+    producto_id: int
+    tipo: str
+    cantidad: int
 
 #Al encender la API, me aseguro de que las tablas existan
 crear_tablas()
@@ -52,3 +58,15 @@ def ver_stock_bajo():
             "minimo": minimo
         })
     return productos
+
+#Registra una entrada o salida de mercancia
+@app.post("/movimientos")
+def crear_movimiento(movimiento: Movimiento):
+    if movimiento.tipo not in ("entrada", "salida"):
+        raise HTTPException(status_code=400, detail="El tipo debe ser entrada o salida.")
+    if movimiento.cantidad <= 0:
+        raise HTTPException(status_code=400, detail="La cantidad debe ser mayor a cero.")
+    mensaje = registrar_movimiento(movimiento.producto_id, movimiento.tipo, movimiento.cantidad)
+    if mensaje != "Movimiento registrado.":
+        raise HTTPException(status_code=400, detail=mensaje)
+    return {"mensaje": mensaje}
