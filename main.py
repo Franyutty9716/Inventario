@@ -1,4 +1,4 @@
-from db import crear_tablas, agregar_producto, listar_productos, buscar_productos
+from db import crear_tablas, agregar_producto, listar_productos, buscar_productos, registrar_movimiento
 
 #Muestra las opciones del menu
 def mostrar_menu():
@@ -6,7 +6,9 @@ def mostrar_menu():
     print("1. Agregar producto")
     print("2. Listar productos")
     print("3. Buscar producto")
-    print("4. Salir")
+    print("4. Registrar entrada")
+    print("5. Registrar salida")
+    print("6. Salir")
 
 #Pide los datos de un prducto y lo guarda 
 def pedir_producto():
@@ -40,6 +42,21 @@ def mostrar_busqueda():
     for id, nombre, cantidad, precio, minimo in productos:
         print(f"{id}. {nombre} - {cantidad} piezas - ${precio}")
 
+#Pide los datos de un movimiento y lo registra
+def pedir_movimiento(tipo):
+    mostrar_productos()
+    try:
+        producto_id = int(input("Numero del producto: "))
+        cantidad = int(input("Cantidad: "))
+    except ValueError:
+        print("Escribe solo numeros enteros.")
+        return
+    if cantidad <= 0:
+        print("La cantidad debe ser mayor a cero.")
+        return
+    mensaje = registrar_movimiento(producto_id, tipo, cantidad)
+    print(mensaje)
+
 crear_tablas()
 
 while True:
@@ -52,6 +69,10 @@ while True:
     elif opcion == "3":
         mostrar_busqueda()
     elif opcion == "4":
+        pedir_movimiento("entrada")
+    elif opcion == "5":
+        pedir_movimiento("salida")
+    elif opcion == "6":
         print("Hasta luego")
         break
     else:
