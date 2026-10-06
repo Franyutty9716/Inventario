@@ -23,13 +23,42 @@ Quería crear algo útil para empresas, no solo un ejercicio de clase. Muchos ne
 python main.py
 ```
 
+## 🌐 API con FastAPI
+1. Crea y activa un entorno virtual:
+
+```
+python -m venv venv
+venv\Scripts\activate
+```
+
+2. Instala las librerías:
+
+```
+pip install fastapi uvicorn
+```
+
+3. Enciende la API:
+
+```
+uvicorn api:app --reload
+```
+
+4. Abre http://127.0.0.1:8000/docs para probarla
+
+### Rutas
+- `GET /productos`: lista los productos
+- `POST /productos`: agrega un producto
+- `GET /stock-bajo`: productos que están por acabarse
+- `POST /movimientos`: registra una entrada o salida de mercancía
+
 ## 🛠️ Tecnologías
 - Python
 - SQLite
 - Git y GitHub
+- FastAPI
 
 ## 🗺️ Lo que sigue
-- [ ] API con FastAPI
+- [x] API con FastAPI
 - [ ] Reporte de inventario en CSV o Excel
 - [ ] Interfaz web
 
