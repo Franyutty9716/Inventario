@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from db import crear_tablas, listar_productos, agregar_producto
+from db import crear_tablas, listar_productos, agregar_producto, productos_stock_bajo
 
 app = FastAPI()
 
@@ -38,3 +38,17 @@ def ver_productos():
 def crear_producto(producto: Producto):
     agregar_producto(producto.nombre, producto.cantidad, producto.precio, producto.minimo)
     return {"mensaje": "Producto agregado"}
+
+#Devuelve los productos que estan por acabarse
+@app.get("/stock-bajo")
+def ver_stock_bajo():
+    productos = []
+    for id, nombre, cantidad, precio, minimo in productos_stock_bajo():
+        productos.append({
+            "id": id,
+            "nombre": nombre,
+            "cantidad": cantidad,
+            "precio": precio,
+            "minimo": minimo
+        })
+    return productos
